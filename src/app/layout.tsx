@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Grok ChatGPT App",
-  description: "ChatGPT brought to you by GrokEarth",
+  title: "Grok ChatGPT",
+  description: "Grok ChatGPT is a GrokEarth application",
 };
 
 export default function RootLayout({
