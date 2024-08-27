@@ -1,7 +1,8 @@
 import NextAuth from "next-auth"
+import type { NextAuthOptions } from "next-auth/index"
 import GitHubProvider from "next-auth/providers/github"
 
-const authOptions: any = {
+const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ profile }) {
       // whitelisting of username
