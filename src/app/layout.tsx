@@ -22,8 +22,8 @@ export default function RootLayout({
   return (
     <SessionProvider>
       <html lang='en'>
-        <body className={`${inter.className} px-2 md:px-5`}>
-          <header className='bg-slate-500 p-2 font-bold text-white'>
+        <body className={`${inter.className}`}>
+          <header className='bg-slate-500 px-2 py-1 pr-1 font-bold text-white'>
             <div className='flex grow justify-between'>
               <div className='flex items-center'>
                 <Link href='/'>Grok GPT</Link>
@@ -36,7 +36,7 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <div className='flex flex-col md:flex-row'>
+          <div className='mx-2 flex flex-col md:flex-row'>
             <div className='grow'>{children}</div>
           </div>
         </body>
