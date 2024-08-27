@@ -1,7 +1,7 @@
 "use client"
 
 import { LogIn, LogOut } from "lucide-react"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { useSession } from "next-auth/react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,13 @@ function getFirstTwoCapitalLetters(str?: string | null) {
   return match ? match.slice(0, 2).join("") : "GT"
 }
 
-export default function UserButton() {
+export default function UserButton({
+  onSignIn,
+  onSignOut,
+}: {
+  onSignIn: () => Promise<void>
+  onSignOut: () => Promise<void>
+}) {
   const { data: session, status } = useSession()
 
   return (
@@ -35,7 +41,7 @@ export default function UserButton() {
           <DropdownMenuContent>
             <DropdownMenuItem
               onClick={() => {
-                signOut().then()
+                onSignOut().then()
               }}
             >
               <LogOut className='mr-2 size-4' /> Log Out
@@ -44,7 +50,7 @@ export default function UserButton() {
         </DropdownMenu>
       )}
       {status === "unauthenticated" && (
-        <Button variant='ghost' onClick={() => signIn()}>
+        <Button variant='ghost' onClick={() => onSignIn()}>
           <LogIn className='mr-2 size-4' /> Log In
         </Button>
       )}
