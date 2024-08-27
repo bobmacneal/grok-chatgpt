@@ -23,10 +23,10 @@ export default function RootLayout({
     <SessionProvider>
       <html lang='en'>
         <body className={`${inter.className} px-2 md:px-5`}>
-          <header className='bg-slate-500 p-2 text-xl font-bold text-white'>
+          <header className='bg-slate-500 p-2 font-bold text-white'>
             <div className='flex grow justify-between'>
-              <div>
-                <Link href='/'>GPT Chat</Link>
+              <div className='flex items-center'>
+                <Link href='/'>Grok GPT</Link>
                 <Link href='/about' className='ml-6 font-light'>
                   About
                 </Link>
@@ -35,7 +35,6 @@ export default function RootLayout({
                 <UserButton />
               </div>
             </div>
-            <div className='border border-lime-500' />
           </header>
           <div className='flex flex-col md:flex-row'>
             <div className='grow'>{children}</div>

@@ -1,5 +1,6 @@
 "use client"
 
+import { LogIn, LogOut } from "lucide-react"
 import { signIn, signOut, useSession } from "next-auth/react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -34,17 +35,17 @@ export default function UserButton() {
           <DropdownMenuContent>
             <DropdownMenuItem
               onClick={() => {
-                signOut()
+                signOut().then()
               }}
             >
-              Sign Out
+              <LogOut className='mr-2 size-4' /> Log Out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
       {status === "unauthenticated" && (
         <Button variant='ghost' onClick={() => signIn()}>
-          Sign in
+          <LogIn className='mr-2 size-4' /> Log In
         </Button>
       )}
     </div>
