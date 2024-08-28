@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 interface Message {
   role: "user" | "assistant"
   refusal?: any
-  content: string
+  content: string | null
 }
 
 export default function Chat() {
@@ -21,13 +21,11 @@ export default function Chat() {
   const onClick = async () => {
     const messageHistory: Message[] = JSON.parse(JSON.stringify(messages))
     messageHistory.push({ role: "user", content: message })
-    const completions = await getCompletion(message)
-    if (completions) {
-      messageHistory.push({
-        role: completions.role,
-        content: completions.content,
-      })
-    }
+    const completions: any = await getCompletion(message)
+    messageHistory.push({
+      role: completions.role ? completions.role : "assistant",
+      content: completions.content ? completions.content : "",
+    })
     setMessage("")
     setMessages(messageHistory)
   }

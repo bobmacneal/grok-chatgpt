@@ -9,8 +9,8 @@ const openai = new OpenAI({
 
 export async function getCompletion(prompt: string) {
   const response = await openai.chat.completions.create({
-    model: process.env.OPENAI_CHAT_MODEL,
+    model: process.env.NEXT_PUBLIC_OPENAI_CHAT_MODEL || "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
   })
-  return response.choices[0].message
+  return response.choices[0].message ? response.choices[0].message : ""
 }
