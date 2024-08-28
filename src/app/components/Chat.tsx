@@ -21,10 +21,10 @@ export default function Chat() {
   const onClick = async () => {
     const messageHistory: Message[] = JSON.parse(JSON.stringify(messages))
     messageHistory.push({ role: "user", content: message })
-    const { role, content } = await getCompletion(message)
+    const completions = await getCompletion(message)
     messageHistory.push({
-      role,
-      content,
+      role: completions.role,
+      content: completions.content,
     })
     setMessage("")
     setMessages(messageHistory)
