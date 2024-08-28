@@ -1,3 +1,21 @@
-import { handlers } from "../../../../auth"
+import type { CallbacksOptions } from "next-auth"
+import NextAuth from "next-auth"
+import GitHubProvider from "next-auth/providers/github"
 
-export const { GET, POST } = handlers
+const authOptions = {
+  callbacks: {
+    async signIn({ profile }: { profile: { login: string } }) {
+      return profile.login === "bobmacneal"
+    },
+  } as unknown as CallbacksOptions,
+  providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+  ],
+}
+
+const handler = NextAuth(authOptions)
+
+export { handler as GET, handler as POST }

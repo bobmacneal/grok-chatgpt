@@ -3,9 +3,8 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Link from "next/link"
-import { SessionProvider } from "next-auth/react"
 
-import { auth, signIn, signOut } from "../auth"
+import { SessionProvider } from "./components/SessionProvider" // important: keep this wrapper
 import UserButton from "./components/UserButton"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -15,21 +14,13 @@ export const metadata: Metadata = {
   description: "Grok ChatGPT is a GrokEarth application",
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await auth()
-  if (session?.user) {
-    session.user = {
-      name: session.user.name,
-      email: session.user.email,
-      image: session.user.image,
-    }
-  }
   return (
-    <SessionProvider basePath='/api/auth' session={session}>
+    <SessionProvider>
       <html lang='en'>
         <body className={`${inter.className}`}>
           <header className='bg-slate-500 px-2 py-1 pr-1 font-bold text-white'>
@@ -41,18 +32,7 @@ export default async function RootLayout({
                 </Link>
               </div>
               <div>
-                <UserButton
-                  onSignIn={async () => {
-                    "use server"
-
-                    await signIn()
-                  }}
-                  onSignOut={async () => {
-                    "use server"
-
-                    await signOut()
-                  }}
-                />
+                <UserButton />
               </div>
             </div>
           </header>
