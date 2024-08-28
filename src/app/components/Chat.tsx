@@ -4,6 +4,7 @@ import { useState } from "react"
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { uuid } from "uuidv4"
 
+import ProgressBar from "@/app/components/ProgressBar"
 import { getCompletion } from "@/app/server-actions/getCompletion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,8 +18,10 @@ interface Message {
 export default function Chat() {
   const [message, setMessage] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
+  const [makingProgress, setMakingProgress] = useState<boolean>(false)
 
   const onClick = async () => {
+    setMakingProgress(true)
     const messageHistory: Message[] = JSON.parse(JSON.stringify(messages))
     messageHistory.push({ role: "user", content: message })
     const completions: any = await getCompletion(message)
@@ -28,14 +31,11 @@ export default function Chat() {
     })
     setMessage("")
     setMessages(messageHistory)
+    setMakingProgress(false)
   }
 
   return (
-    <div className='mt-5 flex flex-col'>
-      <div className='ml-1 text-sm text-gray-500'>
-        Invokes Chat GTP model:{" "}
-        <b>{process.env.NEXT_PUBLIC_OPENAI_CHAT_MODEL}</b>
-      </div>
+    <div className='flex flex-col'>
       {messages.map((message) => (
         <div key={uuid()} className='mb-5 flex flex-col'>
           <div
@@ -47,21 +47,24 @@ export default function Chat() {
           </div>
         </div>
       ))}
-      <div className='mt-3 flex pt-3'>
-        <Input
-          className='grow'
-          placeholder='Prompt for Chat GPT'
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              onClick().then()
-            }
-          }}
-        />
-        <Button onClick={onClick} className='ml-3'>
-          Send Inquiry
-        </Button>
+      <div className='-ml-1 mt-3 flex-col pt-3'>
+        <div>{makingProgress && <ProgressBar />}</div>
+        <div className='mt-1.5 flex'>
+          <Input
+            className='grow'
+            placeholder='Prompt for Chat GPT'
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                onClick().then()
+              }
+            }}
+          />
+          <Button onClick={onClick} className='ml-3'>
+            Send Inquiry
+          </Button>
+        </div>
       </div>
     </div>
   )

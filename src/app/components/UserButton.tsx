@@ -25,7 +25,7 @@ export default function UserButton() {
       {status === "authenticated" && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar>
+            <Avatar className='cursor-pointer'>
               <AvatarImage src={session?.user?.image!} />
               <AvatarFallback>
                 {getFirstTwoCapitalLetters(session?.user?.name)}
@@ -34,6 +34,7 @@ export default function UserButton() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
+              className='cursor-pointer'
               onClick={() => {
                 signOut().then()
               }}
