@@ -22,10 +22,12 @@ export default function Chat() {
     const messageHistory: Message[] = JSON.parse(JSON.stringify(messages))
     messageHistory.push({ role: "user", content: message })
     const completions = await getCompletion(message)
-    messageHistory.push({
-      role: completions.role,
-      content: completions.content,
-    })
+    if (completions) {
+      messageHistory.push({
+        role: completions.role,
+        content: completions.content,
+      })
+    }
     setMessage("")
     setMessages(messageHistory)
   }
